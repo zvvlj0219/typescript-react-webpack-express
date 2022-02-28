@@ -7,11 +7,12 @@ const App: React.VFC = () => {
   const [username, setUsername] = useState<string>('')
 
   console.log('react app')
+
   const url: string = youtube
   console.log(`${url.slice(0, 30)}...`)
 
   const fetchUsername = useCallback(async () => {
-    const { data }  = await axios.get('/api')
+    const { data } = await axios.get('/api')
     setUsername(data.result)
   }, [])
 
@@ -23,13 +24,7 @@ const App: React.VFC = () => {
     <div>
       <HelloWorld />
       <img src={url} alt="" />
-      <h2>
-        {
-          username ?
-          `username is ${username}`
-          : 'no exist user'
-        }
-      </h2>
+      <h2>{username ? `username is ${username}` : 'no exist user'}</h2>
     </div>
   )
 }
