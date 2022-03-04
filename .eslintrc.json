@@ -10,7 +10,11 @@
             "jsx": true
         },
         "ecmaVersion": "latest",
-        "sourceType": "module"
+        "sourceType": "module",
+        "project": [
+            "./tsconfig.client.json",
+            "./tsconfig.server.json"
+        ]
     },
     "extends": [
         "eslint:recommended",
