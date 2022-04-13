@@ -7,17 +7,16 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors())
 
-app.get('/api', (req: express.Request, res: express.Response) => {
-  res.send({ result: 'youtube' })
-})
+// app.get('/api', (req: express.Request, res: express.Response) => {
+//   res.send({ result: 'youtube' })
+// })
 
-//handle production
+// handle production
 if (process.env.NODE_ENV === 'production') {
-  //static folder
+  // static folder
   app.use(express.static(path.resolve(__dirname)))
-  //handle spa
+  // handle spa
   app.get('/', (req, res) => {
-    console.log(__dirname)
     res.sendFile(path.resolve(__dirname, '/index.html'))
   })
 }
