@@ -27,8 +27,7 @@
         "plugin:import/typescript",
         "plugin:jsx-a11y/recommended",
         "plugin:react-hooks/recommended",
-        "prettier",
-        "prettier/@typescript-eslint"
+        "prettier"
     ],
     "plugins": [
         "react",
