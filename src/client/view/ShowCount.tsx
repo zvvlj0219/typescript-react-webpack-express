@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import { CountContext } from './Hooks'
 
 const ShowCount = () => {
-  const { state, dispatch } = useContext(CountContext)
+  const { state } = useContext(CountContext)
 
   return (
     <div>

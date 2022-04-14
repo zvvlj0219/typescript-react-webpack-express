@@ -1,5 +1,4 @@
-import { useReducer, useMemo, createContext, Dispatch, useContext } from 'react'
-import ShowCount from './ShowCount'
+import { useReducer, useMemo, createContext, Dispatch } from 'react'
 
 type State = {
   count: number
@@ -7,35 +6,35 @@ type State = {
 
 const ActionType = {
   INCREMENT_COUNT: 'INCREMENT_COUNT',
-  DECREMENT_COUNT: 'DECREMENT_COUNT'
+  DECREMENT_COUNT: 'DECREMENT_COUNT',
 } as const
 
 type Action = {
   type: typeof ActionType[keyof typeof ActionType]
-  payload? : number
+  payload?: number
 }
 
-const reducerFunc = ( state: State, action: Action ): State => {
-  switch(action.type) {
-    case 'INCREMENT_COUNT':
+const reducerFunc = (state: State, action: Action): State => {
+  switch (action.type) {
+    case ActionType.INCREMENT_COUNT:
       return {
-        count: state.count + 1
+        count: state.count + 1,
       }
       break
-    
-    case 'DECREMENT_COUNT':
+
+    case ActionType.DECREMENT_COUNT:
       return {
-        count: state.count - 2
+        count: state.count - 2,
       }
       break
-    
+
     default:
       return state
   }
 }
 
 const initialState: State = {
-  count: 0
+  count: 0,
 }
 
 export const CountContext = createContext(
@@ -46,32 +45,43 @@ const Hooks: React.VFC = () => {
   const [state, dispatch] = useReducer(reducerFunc, initialState)
 
   const increment = () => {
-    dispatch({ type: ActionType.INCREMENT_COUNT})
+    dispatch({ type: ActionType.INCREMENT_COUNT })
   }
 
   const decrement = () => {
-    dispatch({ type: ActionType.DECREMENT_COUNT})
+    dispatch({ type: ActionType.DECREMENT_COUNT })
   }
 
   const btnStyle = {
     width: '60px',
     height: '30px',
-    fontSize: '20px'
+    fontSize: '20px',
   }
+
+  const value = useMemo(
+    () => ({
+      state,
+      dispatch
+    }),
+    [state]
+  )
 
   return (
     <div>
-      <CountContext.Provider value={{state, dispatch}}>
+      <CountContext.Provider value={value}>
         <h1>hooks</h1>
-        <button type='button' style={{...btnStyle, marginLeft: '30px'}} onClick={increment}>
+        <button
+          type="button"
+          style={{ ...btnStyle, marginLeft: '30px' }}
+          onClick={increment}
+        >
           +
         </button>
         <p>{state.count}</p>
-        <button type='button' style={btnStyle} onClick={decrement}>
+        <button type="button" style={btnStyle} onClick={decrement}>
           -
         </button>
         <hr />
-        <ShowCount />
       </CountContext.Provider>
     </div>
   )
