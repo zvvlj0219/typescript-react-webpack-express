@@ -8,7 +8,8 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cors())
 
 app.post('/api/eh', (
-  req: express.Request<Record<string, never>, Record<string, never>, {text: string}>, res: express.Response
+  req: express.Request<Record<string, never>, Record<string, never>, {text: string}>,
+  res: express.Response
 ) => {
   const  value = req.body.text
   const valueArr = value.split('')
@@ -22,7 +23,7 @@ app.post('/api/eh', (
     return res.status(200).send()
   }
 
-  return res.status(400).send()
+  return res.status(400).send({ message: 'validation error' })
 })
 
 // handle production

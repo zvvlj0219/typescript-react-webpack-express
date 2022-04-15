@@ -1,10 +1,12 @@
-import { useMemo, useState } from 'react'
-import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
+import { useState } from 'react'
+import axios, { AxiosRequestConfig } from 'axios'
+import useError from '../Error/useError'
 
 const ErrorHandle = () => {
   const [text, setText] = useState<string>('')
   const [validError, setValidError] = useState<boolean>(false)
   const [serverError, setServerError] = useState<{message: string}>(null)
+  const { customErrorThrow } = useError()
 
   const handleText =(e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value
@@ -40,16 +42,8 @@ const ErrorHandle = () => {
       await axios(options)
       setText('')
     } catch (error: unknown) {
-      // console.log(error?.response?.status)
-      // dispatchで何らかの処理
-      // console.log(error?.message)
-      // console.log(error?.response)
-      // const { data } = error?.response
-      // setServerError(data)
-      if (error instanceof Error) {
-        setServerError({message: '400'})
-        console.log(error.message)
-      }
+      const res = customErrorThrow(error)
+      setServerError(res) 
     }
   }
 
