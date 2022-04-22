@@ -5,16 +5,14 @@
   "license": "MIT",
   "scripts": {
     "nodemon": "nodemon dist",
-    "node": "tsc -p ./tsconfig.server.json && node dist",
+    "node": "node dist",
     "start": "webpack serve --config webpack.dev.js --open",
     "dev": "webpack --config webpack.dev.js",
     "server": "concurrently \"yarn run nodemon\" \"yarn run start\" \"yarn run eslint\"",
     "build:client": "webpack --config webpack.prod.js",
     "build:server": "tsc -p ./tsconfig.server.json",
     "eslint": "eslint src",
-    "format": "prettier --write src",
-    "env:dev": "cross-env NODE_ENV=\"development\"",
-    "env:prod": "cross-env NODE_ENV=\"production\""
+    "format": "prettier --write src"
   },
   "dependencies": {
     "@types/cors": "^2.8.12",

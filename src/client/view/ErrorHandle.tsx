@@ -41,6 +41,7 @@ const ErrorHandle = () => {
     try {
       await axios(options)
       setText('')
+      setServerError(null)
     } catch (error: unknown) {
       const res = customErrorThrow(error)
       setServerError(res) 

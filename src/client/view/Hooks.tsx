@@ -1,4 +1,5 @@
 import { useReducer, useMemo, createContext, Dispatch } from 'react'
+import youtube from '../assets/youtube.png'
 
 type State = {
   count: number
@@ -82,6 +83,7 @@ const Hooks: React.VFC = () => {
           -
         </button>
         <hr />
+        <img src={youtube as string} alt='' />
       </CountContext.Provider>
     </div>
   )
