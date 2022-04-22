@@ -2,15 +2,12 @@ import { useState, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import ErrorContext from './ErrorContext'
 
-const ErrorProvider: React.FC = ({ children}) => {
+const ErrorProvider: React.FC = ({ children }) => {
   const [hasError, setHasError] = useState<boolean>(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [error, setError] = useState<Error | null>(null)
 
-  const setContextError = (
-    ErrorMessage: string,
-    Error?: Error
-  ) => {
+  const setContextError = (ErrorMessage: string, Error?: Error) => {
     setErrorMessage(ErrorMessage)
     setError(Error)
     setHasError(true)
@@ -34,9 +31,7 @@ const ErrorProvider: React.FC = ({ children}) => {
   )
 
   return (
-    <ErrorContext.Provider value={errorValue}>
-      { children }
-    </ErrorContext.Provider>
+    <ErrorContext.Provider value={errorValue}>{children}</ErrorContext.Provider>
   )
 }
 

@@ -7,24 +7,31 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors())
 
-app.post('/api/eh', (
-  req: express.Request<Record<string, never>, Record<string, never>, {text: string}>,
-  res: express.Response
-) => {
-  const  value = req.body.text
-  const valueArr = value.split('')
-  if (
-    valueArr.indexOf('r') !== -1 ||
-    valueArr.indexOf('e') !== -1 ||
-    valueArr.indexOf('a') !== -1 ||
-    valueArr.indexOf('c') !== -1 ||
-    valueArr.indexOf('t') !== -1 
-  ) {
-    return res.status(200).send()
-  }
+app.post(
+  '/api/eh',
+  (
+    req: express.Request<
+      Record<string, never>,
+      Record<string, never>,
+      { text: string }
+    >,
+    res: express.Response
+  ) => {
+    const value = req.body.text
+    const valueArr = value.split('')
+    if (
+      valueArr.indexOf('r') !== -1 ||
+      valueArr.indexOf('e') !== -1 ||
+      valueArr.indexOf('a') !== -1 ||
+      valueArr.indexOf('c') !== -1 ||
+      valueArr.indexOf('t') !== -1
+    ) {
+      return res.status(200).send()
+    }
 
-  return res.status(400).send({ message: 'validation error' })
-})
+    return res.status(400).send({ message: 'validation error' })
+  }
+)
 
 // handle production
 if (process.env.NODE_ENV === 'production') {

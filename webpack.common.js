@@ -1,7 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   entry: path.resolve(__dirname, "./src/client/index.tsx"),
@@ -11,17 +11,17 @@ module.exports = {
   },
   optimization: {
     // Module names are hashed into small numeric values
-    moduleIds: 'deterministic',
+    moduleIds: "deterministic",
     // create a single runtime bundle for all chunks
-    runtimeChunk: 'single',
+    runtimeChunk: "single",
     // splite modules file from bundle file
     splitChunks :{
       cacheGroups: {
         vendor: {
           // include all types of chunks
-          chunks: 'all',
+          chunks: "all",
           test: /node_modules/,
-          name: 'vender'
+          name: "vender"
         }
       }
     }
@@ -50,13 +50,13 @@ module.exports = {
         test: /\.css$/i,
         use: [
           MiniCssExtractPlugin.loader,
-          'css-loader'
+          "css-loader"
         ],
       },
       {
         // images
         test: /\.(png|svg|jpg|jpeg|gif)$/,
-        type: 'asset/resource',
+        type: "asset/resource",
       },
     ],
   },
@@ -67,7 +67,7 @@ module.exports = {
       template: path.resolve(__dirname, "public/index.html"),
     }),
     new MiniCssExtractPlugin({
-      filename:'./css/[name].[contenthash].css'
+      filename:"./css/[name].[contenthash].css"
     })
   ],
 };

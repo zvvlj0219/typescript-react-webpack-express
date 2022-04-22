@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react'
-import { AxiosError,AxiosResponse } from 'axios'
+import { AxiosError, AxiosResponse } from 'axios'
 import ErrorContext from './ErrorContext'
 
 type Message = {
@@ -18,15 +18,16 @@ const useError = () => {
   const customErrorThrow = (error: unknown): Message => {
     if (
       (error as AxiosError<Message>).response &&
-      (error as AxiosError<Message>).response.status === 400 
+      (error as AxiosError<Message>).response.status === 400
     ) {
-      const { data } = (error as AxiosError<Message>).response as AxiosResponse<Message>
+      const { data } = (error as AxiosError<Message>)
+        .response as AxiosResponse<Message>
 
       return {
         message: data.message
       }
     }
-    
+
     if (error instanceof Error) {
       setContextError(error.message, error)
       setErrorMessage(error.message)
