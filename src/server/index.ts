@@ -47,5 +47,3 @@ app.listen(5000, () => {
 
   console.log('server running port 5000')
 })
-
-// $npm set NODE_ENV=production

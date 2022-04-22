@@ -21,8 +21,13 @@ const useError = () => {
       (error as AxiosError<Message>).response.status === 400 
     ) {
       const { data } = (error as AxiosError<Message>).response as AxiosResponse<Message>
-      setErrorMessage(data.message)
-    } else if (error instanceof Error) {
+
+      return {
+        message: data.message
+      }
+    }
+    
+    if (error instanceof Error) {
       setContextError(error.message, error)
       setErrorMessage(error.message)
     }
