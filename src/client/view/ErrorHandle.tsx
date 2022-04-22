@@ -5,10 +5,10 @@ import useError from '../Error/useError'
 const ErrorHandle = () => {
   const [text, setText] = useState<string>('')
   const [validError, setValidError] = useState<boolean>(false)
-  const [serverError, setServerError] = useState<{message: string}>(null)
+  const [serverError, setServerError] = useState<{ message: string }>(null)
   const { customErrorThrow } = useError()
 
-  const handleText =(e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleText = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value
     setText(val)
     textValidation(val)
@@ -37,14 +37,14 @@ const ErrorHandle = () => {
         text
       }
     }
-  
+
     try {
       await axios(options)
       setText('')
       setServerError(null)
     } catch (error: unknown) {
       const res = customErrorThrow(error)
-      setServerError(res) 
+      setServerError(res)
     }
   }
 
@@ -52,42 +52,46 @@ const ErrorHandle = () => {
     <div>
       <div>
         <h3>error handle</h3>
-        <p>＊小文字のアルファベット以外を入れるとフロント側でバリエーションエラーをスローする</p>
-        <p>＊許可された文字が少なくとも１つ含まれていないとサーバーにリクエストしてもエラーを返す</p>
+        <p>
+          ＊小文字のアルファベット以外を入れるとフロント側でバリエーションエラーをスローする
+        </p>
+        <p>
+          ＊許可された文字が少なくとも１つ含まれていないとサーバーにリクエストしてもエラーを返す
+        </p>
         <p>@許可するアルファベットは、r,e,a,c,t の５つ</p>
       </div>
       <form>
         <input
-          type='text'
+          type="text"
           style={{
             padding: '3px 0'
           }}
           value={text}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleText(event)}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+            handleText(event)
+          }
         />
-        <button type='button' onClick={onClick}>
+        <button type="button" onClick={onClick}>
           リクエスト
         </button>
       </form>
       <div
         style={
-          validError ? {
-            background: 'red'
-          } : {
-            background: 'none'
-          }
+          validError
+            ? {
+                background: 'red'
+              }
+            : {
+                background: 'none'
+              }
         }
       >
-        {
-          validError 
-            ?'**ERROR** 小文字のアルファベット以外が入力されました' 
-            : ''
-        }
+        {validError
+          ? '**ERROR** 小文字のアルファベット以外が入力されました'
+          : ''}
       </div>
       <div>
-        {
-          serverError && <h2 style={{color: 'red'}}>{serverError.message}</h2>
-        }
+        {serverError && <h2 style={{ color: 'red' }}>{serverError.message}</h2>}
       </div>
     </div>
   )

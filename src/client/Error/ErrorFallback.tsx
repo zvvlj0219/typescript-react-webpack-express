@@ -5,15 +5,11 @@ import useError from './useError'
 
 const ErrorFallback: React.FC<FallbackProps> = ({
   error,
-  resetErrorBoundary,
+  resetErrorBoundary
 }) => {
   const { context } = useError()
 
-  const {
-    hasError,
-    setContextError,
-    setCotextErrorDone
-  } = context
+  const { hasError, setContextError, setCotextErrorDone } = context
 
   const navigate = useNavigate()
 
@@ -29,14 +25,16 @@ const ErrorFallback: React.FC<FallbackProps> = ({
 
   if (hasError && process.env.NODE_ENV === 'production') {
     window.location.reload()
-  } 
+  }
 
   return (
     <div>
       <h2>Error Message</h2>
-      <h2>{ error.name }</h2>
-      <h2>{ error.message }</h2>
-      <button onClick={terminateError} type='button'>Try again</button>
+      <h2>{error.name}</h2>
+      <h2>{error.message}</h2>
+      <button onClick={terminateError} type="button">
+        Try again
+      </button>
     </div>
   )
 }

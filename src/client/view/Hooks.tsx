@@ -7,7 +7,7 @@ type State = {
 
 const ActionType = {
   INCREMENT_COUNT: 'INCREMENT_COUNT',
-  DECREMENT_COUNT: 'DECREMENT_COUNT',
+  DECREMENT_COUNT: 'DECREMENT_COUNT'
 } as const
 
 type Action = {
@@ -19,13 +19,13 @@ const reducerFunc = (state: State, action: Action): State => {
   switch (action.type) {
     case ActionType.INCREMENT_COUNT:
       return {
-        count: state.count + 1,
+        count: state.count + 1
       }
       break
 
     case ActionType.DECREMENT_COUNT:
       return {
-        count: state.count - 2,
+        count: state.count - 2
       }
       break
 
@@ -35,7 +35,7 @@ const reducerFunc = (state: State, action: Action): State => {
 }
 
 const initialState: State = {
-  count: 0,
+  count: 0
 }
 
 export const CountContext = createContext(
@@ -56,7 +56,7 @@ const Hooks: React.VFC = () => {
   const btnStyle = {
     width: '60px',
     height: '30px',
-    fontSize: '20px',
+    fontSize: '20px'
   }
 
   const value = useMemo(
@@ -83,7 +83,7 @@ const Hooks: React.VFC = () => {
           -
         </button>
         <hr />
-        <img src={youtube as string} alt='' />
+        <img src={youtube} alt="" />
       </CountContext.Provider>
     </div>
   )
