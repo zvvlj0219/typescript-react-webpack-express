@@ -7,9 +7,18 @@ var express_1 = __importDefault(require("express"));
 var cors_1 = __importDefault(require("cors"));
 var path_1 = __importDefault(require("path"));
 var app = (0, express_1.default)();
+// middleware
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
-app.use((0, cors_1.default)());
+var corsOptions = {
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+    allowedHeaders: ['Content-Type']
+};
+app.use((0, cors_1.default)(corsOptions));
+// router
 app.post('/api/eh', function (req, res) {
     var value = req.body.text;
     var valueArr = value.split('');
