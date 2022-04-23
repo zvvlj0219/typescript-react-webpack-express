@@ -5,7 +5,7 @@ import useError from '../Error/useError'
 // baseURL
 const API = axios.create({ baseURL: 
   process.env.NODE_ENV === 'production'
-    ? 'https://ts-react-heroku.herokuapp.com'
+    ? 'https://ts-react-heroku.herokuapp.com/api'
     : 'http://localhost:5000/api' 
 })
 
