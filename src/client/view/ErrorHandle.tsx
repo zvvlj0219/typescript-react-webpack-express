@@ -3,7 +3,11 @@ import axios, { AxiosRequestConfig } from 'axios'
 import useError from '../Error/useError'
 
 // baseURL
-const API = axios.create({ baseURL: 'http://localhost:5000/api' })
+const API = axios.create({ baseURL: 
+  process.env.NODE_ENV === 'production'
+    ? 'https://ts-react-heroku.herokuapp.com'
+    : 'http://localhost:5000/api' 
+})
 
 const ErrorHandle = () => {
   const [text, setText] = useState<string>('')
