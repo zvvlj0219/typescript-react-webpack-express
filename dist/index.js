@@ -33,6 +33,6 @@ if (process.env.NODE_ENV === 'production') {
 }
 var port = process.env.PORT || 5000;
 app.listen(port, function () {
-    console.log("NODE_ENV is ".concat(process.env.NODE_ENV));
+    console.log("NODE_ENV is ".concat(String(process.env.NODE_ENV)));
     console.log("server running port 5000 at http://localhost:".concat(port));
 });

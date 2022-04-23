@@ -1,5 +1,5 @@
-import { useContext, useState } from 'react'
-import { AxiosError, AxiosResponse } from 'axios'
+import { useContext } from 'react'
+import { AxiosError } from 'axios'
 import ErrorContext from './ErrorContext'
 
 type Message = {
@@ -7,7 +7,6 @@ type Message = {
 }
 
 const useError = () => {
-  const [errorMessage, setErrorMessage] = useState<string>('')
   const context = useContext(ErrorContext)
   const { setContextError } = context
 
@@ -16,12 +15,10 @@ const useError = () => {
   }
 
   const customErrorThrow = (error: unknown): Message => {
-    if (
-      (error as AxiosError<Message>).response &&
-      (error as AxiosError<Message>).response.status === 400
-    ) {
-      const { data } = (error as AxiosError<Message>)
-        .response as AxiosResponse<Message>
+    const axiosError = error as AxiosError<Message>
+
+    if (axiosError.response && axiosError.response.status === 400) {
+      const { data } = axiosError.response
 
       return {
         message: data.message
@@ -30,11 +27,18 @@ const useError = () => {
 
     if (error instanceof Error) {
       setContextError(error.message, error)
-      setErrorMessage(error.message)
+
+      // error log
+      console.log(error.name)
+      console.log(error.message)
+
+      return {
+        message: `${error.name}_${error.message}`
+      }
     }
 
     return {
-      message: errorMessage
+      message: 'inValid error'
     }
   }
 
