@@ -2,6 +2,9 @@ import { useState } from 'react'
 import axios, { AxiosRequestConfig } from 'axios'
 import useError from '../Error/useError'
 
+// baseURL
+const API = axios.create({ baseURL: 'http://localhost:5000/api' })
+
 const ErrorHandle = () => {
   const [text, setText] = useState<string>('')
   const [validError, setValidError] = useState<boolean>(false)
@@ -31,15 +34,19 @@ const ErrorHandle = () => {
 
   const onClick = async () => {
     const options: AxiosRequestConfig = {
-      url: 'http://localhost:5000/api/eh',
+      url: '/eh',
       method: 'POST',
+      headers:{  
+        "Content-Type": "application/json",
+        'Accept': 'application/json',
+      },
       data: {
         text
       }
     }
 
     try {
-      await axios(options)
+      await API(options)
       setText('')
       setServerError(null)
     } catch (error: unknown) {
