@@ -3,10 +3,20 @@ import cors from 'cors'
 import path from 'path'
 
 const app = express()
+
+// middleware
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(cors())
+const corsOptions = {
+  origin: '*',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+  allowedHeaders: ['Content-Type']
+}
+app.use(cors(corsOptions))
 
+// router
 app.post(
   '/api/eh',
   (

@@ -26,11 +26,11 @@ const useError = () => {
     }
 
     if (error instanceof Error) {
-      setContextError(error.message, error)
-
       // error log
-      console.log(error.name)
-      console.log(error.message)
+      console.error(error.name)
+      console.error(error.message)
+
+      setContextError(error.message, error)
 
       return {
         message: `${error.name}_${error.message}`
