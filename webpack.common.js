@@ -4,7 +4,9 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-  entry: path.resolve(__dirname, "./src/client/index.tsx"),
+  entry: {
+    app: path.resolve(__dirname, "./src/client/index.tsx")
+  },
   resolve: {
     modules: [path.resolve(__dirname, "node_modules")],
     extensions: [ ".tsx", ".ts",".js"]
@@ -47,18 +49,36 @@ module.exports = {
         ]
       },
       {
-        test: /\.css$/i,
-        use: [
-          MiniCssExtractPlugin.loader,
-          "css-loader"
-        ],
+        // webpack5 assets modules
+        test: /\.(png|jpg|gif)$/,
+        generator: {
+					filename: `./image/[name].[contenthash][ext]`,
+				},
+        type: "asset/resource"
       },
       {
-        // images
-        test: /\.(png|svg|jpg|jpeg|gif)$/,
-        type: "asset/resource",
-      },
-    ],
+        test: /\.(sass|scss|css)$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader",
+          {
+						// PostCSSでcssを処理する
+						loader: "postcss-loader",
+						options: {
+							postcssOptions: {
+								plugins: [require("autoprefixer")({ grid: true })]
+							}
+						}
+					},
+          {
+            loader: "sass-loader",
+            options: {
+              implementation: require("sass"),
+            },
+          }
+        ],
+      }
+    ]
   },
   plugins: [
     // clean up output directory before build
