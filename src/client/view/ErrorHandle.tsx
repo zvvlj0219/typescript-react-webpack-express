@@ -26,8 +26,6 @@ const ErrorHandle = () => {
     textValidation(val)
   }
 
-  // console.log(a)
-
   const textValidation = (str: string) => {
     if (!str) {
       setValidError(false)
