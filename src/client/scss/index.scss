@@ -1,0 +1,9 @@
+@import "./style.scss";
+
+$body-color: white;
+
+body {
+  margin: 0;
+  padding: 20px;
+  background-color: $body-color;
+}

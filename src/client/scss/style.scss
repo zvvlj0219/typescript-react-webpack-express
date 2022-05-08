@@ -1,0 +1,9 @@
+$test-color: red;
+
+.test {
+    clip-path: none;
+    transform: scale(2);
+    user-select: none;
+    color: $test-color;
+}
+  

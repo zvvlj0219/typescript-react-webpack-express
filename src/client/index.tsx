@@ -5,7 +5,7 @@ import { ErrorBoundary } from 'react-error-boundary'
 import ErrorFallback from './Error/ErrorFallback'
 import ErrorProvider from './Error/ErrorProvider'
 import App from './App'
-import './App.css'
+import './scss/index.scss'
 
 ReactDom.render(
   <ErrorProvider>
