@@ -3,16 +3,21 @@ import axios, { AxiosRequestConfig } from 'axios'
 import useError from '../Error/useError'
 
 // baseURL
-const API = axios.create({ baseURL: 
-  process.env.NODE_ENV === 'production'
-    ? 'https://ts-react-heroku.herokuapp.com/api'
-    : 'http://localhost:5000/api' 
+const API = axios.create({
+  baseURL:
+    process.env.NODE_ENV === 'production'
+      ? 'https://ts-react-heroku.herokuapp.com/api'
+      : 'http://localhost:5000/api'
 })
+
+type Message = {
+  message: string
+}
 
 const ErrorHandle = () => {
   const [text, setText] = useState<string>('')
   const [validError, setValidError] = useState<boolean>(false)
-  const [serverError, setServerError] = useState<{ message: string }>(null)
+  const [serverError, setServerError] = useState<Message>(null)
   const { customErrorThrow } = useError()
 
   const handleText = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,6 +25,8 @@ const ErrorHandle = () => {
     setText(val)
     textValidation(val)
   }
+
+  // console.log(a)
 
   const textValidation = (str: string) => {
     if (!str) {
@@ -40,9 +47,9 @@ const ErrorHandle = () => {
     const options: AxiosRequestConfig = {
       url: '/eh',
       method: 'POST',
-      headers:{  
-        "Content-Type": "application/json",
-        'Accept': 'application/json',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
       },
       data: {
         text

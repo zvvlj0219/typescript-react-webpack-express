@@ -38,7 +38,7 @@ const useError = () => {
     }
 
     return {
-      message: 'inValid error'
+      message: 'uncaught error'
     }
   }
 
