@@ -1,92 +1,125 @@
-import { useReducer, useMemo, createContext, Dispatch } from 'react'
-import youtube from '../assets/youtube.png'
+import { useContext, createContext, useState, useEffect,useReducer, useMemo, useCallback, Children } from "react"
 
 type State = {
-  count: number
+    count: number
 }
 
 const ActionType = {
-  INCREMENT_COUNT: 'INCREMENT_COUNT',
-  DECREMENT_COUNT: 'DECREMENT_COUNT'
+    INCREMENT: 'INCREMENT',
+    DECREMENT: 'DECREMENT'
 } as const
 
 type Action = {
-  type: typeof ActionType[keyof typeof ActionType]
-  payload?: number
+    type: typeof ActionType[keyof typeof ActionType]
 }
 
-const reducerFunc = (state: State, action: Action): State => {
-  switch (action.type) {
-    case ActionType.INCREMENT_COUNT:
-      return {
-        count: state.count + 1
-      }
-      break
-
-    case ActionType.DECREMENT_COUNT:
-      return {
-        count: state.count - 2
-      }
-      break
-
-    default:
-      return state
-  }
+const reducer = (state: State, action: Action) => {
+    switch(action.type) {
+        case ActionType.INCREMENT:
+            return {
+                ...state,
+                count: state.count + 1
+            }
+        case ActionType.DECREMENT:
+            return {
+                ...state,
+                count: state.count - 1
+            }
+        default:
+            return state
+    }
 }
 
-const initialState: State = {
-  count: 0
+const initialStateFactory = (initialState?: State): State => {
+    return {
+        count: 0,
+        ...initialState
+    }
 }
 
-export const CountContext = createContext(
-  {} as { state: State; dispatch: Dispatch<Action> }
-)
+const AppContext = createContext({} as {
+    state: State,
+    increment: () => void,
+    decrement: () => void
+})
 
-const Hooks: React.VFC = () => {
-  const [state, dispatch] = useReducer(reducerFunc, initialState)
+const useCounter = (initialState?: State) => {
+    const [state, dispatch] = useReducer(
+        reducer,
+        initialStateFactory(initialState)
+    )
 
-  const increment = () => {
-    dispatch({ type: ActionType.INCREMENT_COUNT })
-  }
 
-  const decrement = () => {
-    dispatch({ type: ActionType.DECREMENT_COUNT })
-  }
+    const increment = () => {
+        dispatch({type: ActionType.INCREMENT})
+    }
 
-  const btnStyle = {
-    width: '60px',
-    height: '30px',
-    fontSize: '20px'
-  }
+    const decrement = () => {
+        dispatch({type: ActionType.DECREMENT})
+    }
 
-  const value = useMemo(
-    () => ({
-      state,
-      dispatch
-    }),
-    [state]
-  )
-
-  return (
-    <div>
-      <CountContext.Provider value={value}>
-        <h1>hooks</h1>
-        <button
-          type="button"
-          style={{ ...btnStyle, marginLeft: '30px' }}
-          onClick={increment}
-        >
-          +
-        </button>
-        <p>{state.count}</p>
-        <button type="button" style={btnStyle} onClick={decrement}>
-          -
-        </button>
-        <hr />
-        <img src={youtube} alt="" />
-      </CountContext.Provider>
-    </div>
-  )
+    return {
+        state,
+        increment,
+        decrement
+    } as const
 }
+
+const AnotherHooks = () => {
+    const { state, increment, decrement } = useCounter({ count: 3 })
+
+    return (
+        <>
+            <p>ここから孫コンポーネント</p>
+            <p>{state.count}</p>
+            <button onClick={() => increment()}>+</button>
+            <button onClick={() => decrement()}>-</button>
+            <p>ここまで</p>
+        </>
+    )
+}
+
+const AppContextProvider = ({ children }: {
+    children: React.ReactNode
+}) => {
+    const { state, increment, decrement } = useCounter()
+
+    const value = useMemo(
+        () => ({
+            state,
+            increment,
+            decrement
+        }),
+        [state]
+    )
+
+    return (
+        <AppContext.Provider value={value}>
+            { children }
+        </AppContext.Provider>
+    )
+}
+
+const Hooks = () => {
+    //以下 使用不可
+    const context = useCounter()
+    const { increment, decrement } = context
+
+    return (
+        <div>
+            <p>この親コンポーネントからは参照できない</p>
+            <p>Provider以下の別のコンポーネントからのみ参照可能</p>
+            <button onClick={() => increment()}>
+                親からプラス1
+            </button>
+            <button onClick={() => decrement()}>
+                親からマイナス
+            </button>
+            <AppContextProvider >
+                <AnotherHooks />
+            </AppContextProvider>
+        </div>
+    )
+} 
 
 export default Hooks
