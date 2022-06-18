@@ -17,7 +17,7 @@ const ActionType = {
 
 type Action = {
     type: typeof ActionType[keyof typeof ActionType]
-    payload?: string | undefined
+    payload?: string
 }
 
 const weaponReducer = (state: State, action: Action): State => {
