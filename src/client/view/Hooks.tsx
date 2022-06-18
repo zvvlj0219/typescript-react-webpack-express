@@ -4,58 +4,31 @@ type State = {
     count: number
 }
 
-const ActionType = {
-    INCREMENT: 'INCREMENT',
-    DECREMENT: 'DECREMENT'
-} as const
-
-type Action = {
-    type: typeof ActionType[keyof typeof ActionType]
-}
-
-const reducer = (state: State, action: Action) => {
-    switch(action.type) {
-        case ActionType.INCREMENT:
-            return {
-                ...state,
-                count: state.count + 1
-            }
-        case ActionType.DECREMENT:
-            return {
-                ...state,
-                count: state.count - 1
-            }
-        default:
-            return state
-    }
-}
-
-const initialStateFactory = (initialState?: State): State => {
-    return {
-        count: 0,
-        ...initialState
-    }
-}
-
-const AppContext = createContext({} as {
+const CountContext = createContext({} as {
     state: State,
     increment: () => void,
     decrement: () => void
 })
 
 const useCounter = (initialState?: State) => {
-    const [state, dispatch] = useReducer(
-        reducer,
-        initialStateFactory(initialState)
+    const [state, setState] = useState<State>(
+        initialState
+        ? initialState 
+        : { count: 0}
     )
 
-
     const increment = () => {
-        dispatch({type: ActionType.INCREMENT})
+        if (!state) return
+        setState({
+            count: state.count + 1
+        })
     }
 
     const decrement = () => {
-        dispatch({type: ActionType.DECREMENT})
+        if (!state) return
+        setState({
+            count: state.count - 1
+        })    
     }
 
     return {
@@ -74,8 +47,29 @@ const AnotherHooks = () => {
             <p>{state.count}</p>
             <button onClick={() => increment()}>+</button>
             <button onClick={() => decrement()}>-</button>
+            <hr />
+            <CountArea_1 state={state} />
+            <hr />
+            <CountArea_2 state={state} />
             <p>ここまで</p>
         </>
+    )
+}
+
+const CountArea_1 = ({state}: {state: State}) => {
+    return (
+        <div>
+            <p>count area 1</p>
+            <p>{state.count}</p>
+        </div>
+    )
+}
+const CountArea_2 = ({state}: {state: State}) => {
+    return (
+        <div>
+            <p>count area 2</p>
+            <p>{state.count}</p>
+        </div>
     )
 }
 
@@ -94,9 +88,9 @@ const AppContextProvider = ({ children }: {
     )
 
     return (
-        <AppContext.Provider value={value}>
+        <CountContext.Provider value={value}>
             { children }
-        </AppContext.Provider>
+        </CountContext.Provider>
     )
 }
 
