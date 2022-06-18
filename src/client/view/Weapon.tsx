@@ -7,7 +7,7 @@ import arrow from '../assets/yumi.jpg'
 
 
 type State = {
-    src: string | undefined
+    src: string | null
 }
 
 const ActionType = {
@@ -17,7 +17,7 @@ const ActionType = {
 
 type Action = {
     type: typeof ActionType[keyof typeof ActionType]
-    payload?: string
+    payload: string | null
 }
 
 const weaponReducer = (state: State, action: Action): State => {
@@ -30,7 +30,7 @@ const weaponReducer = (state: State, action: Action): State => {
   
       case ActionType.REMOVE_WEAPON:
         return {
-          src: undefined
+          src: null
         }
         break
   
@@ -41,7 +41,7 @@ const weaponReducer = (state: State, action: Action): State => {
 
 const initialStateFactory = (initialState?: State): State => {
     return {
-        src: undefined,
+        src: null,
         ...initialState
     }
 }
@@ -52,35 +52,12 @@ const WeaponContext = createContext({} as {
     removeWeapon: () => void
 })
 
-const useWeapon = (initialState?: State) => {
-    const [state, dispatch] = useReducer(
-        weaponReducer,
-        initialStateFactory(initialState)
-    )
-
-    const updateWeapon = (src: string) => {
-        dispatch({
-            type: ActionType.UPDATE_EQUIPMENT,
-            payload: src
-        })
-    }
-
-    const removeWeapon = () => {
-        dispatch({
-            type: ActionType.REMOVE_WEAPON
-        })
-    }
-
-    return {
-        state,
-        updateWeapon,
-        removeWeapon
-    } as const
+const useWeapon = () => {
+    return useContext(WeaponContext)
 }
 
-const WeaponList = ({ updateWeapon }: {
-    updateWeapon: (src:string) => void,
-}) => {
+const WeaponList = () => {
+    const { updateWeapon } = useWeapon()
     return (
         <ul style={{display: 'flex'}}>
             <li 
@@ -108,10 +85,8 @@ const WeaponList = ({ updateWeapon }: {
     )
 }
 
-const EquippedWeapon = ({ state, removeWeapon }: {
-    state: State,
-    removeWeapon: () => void,
-}) => {
+const EquippedWeapon = () => {
+    const { state, removeWeapon } = useWeapon()
     return (
         <div>
             <p>装備中の武器</p>
@@ -137,16 +112,14 @@ const EquippedWeapon = ({ state, removeWeapon }: {
 }
 
 const EditWeapon = () => {
-    const { state, updateWeapon, removeWeapon } = useWeapon()
-
     return (
         <div>
             <h1>ガンスミス</h1>
             <h2>武器を選んでください</h2>
             <hr />
-            <EquippedWeapon state={state} removeWeapon={removeWeapon} />
+            <EquippedWeapon />
             <h2>武器リスト</h2>
-            <WeaponList updateWeapon={updateWeapon} />
+            <WeaponList />
         </div>
     )
 }
@@ -154,7 +127,24 @@ const EditWeapon = () => {
 const WeaponContextProvider = ({ children }: {
     children: React.ReactNode
 }) => {
-    const { state, updateWeapon, removeWeapon } = useWeapon()
+    const [state, dispatch] = useReducer(
+        weaponReducer,
+        initialStateFactory()
+    )
+
+    const updateWeapon = (src: string) => {
+        dispatch({
+            type: ActionType.UPDATE_EQUIPMENT,
+            payload: src
+        })
+    }
+
+    const removeWeapon = () => {
+        dispatch({
+            type: ActionType.REMOVE_WEAPON,
+            payload: null
+        })
+    }
 
     const value = useMemo(
         () => ({
