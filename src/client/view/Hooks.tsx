@@ -10,36 +10,12 @@ const CountContext = createContext({} as {
     decrement: () => void
 })
 
-const useCounter = (initialState?: State) => {
-    const [state, setState] = useState<State>(
-        initialState
-        ? initialState 
-        : { count: 0}
-    )
-
-    const increment = () => {
-        if (!state) return
-        setState({
-            count: state.count + 1
-        })
-    }
-
-    const decrement = () => {
-        if (!state) return
-        setState({
-            count: state.count - 1
-        })    
-    }
-
-    return {
-        state,
-        increment,
-        decrement
-    } as const
+const useCounter = () => {
+    return useContext(CountContext)
 }
 
 const AnotherHooks = () => {
-    const { state, increment, decrement } = useCounter({ count: 3 })
+    const { state, increment, decrement } = useCounter()
 
     return (
         <>
@@ -48,15 +24,16 @@ const AnotherHooks = () => {
             <button onClick={() => increment()}>+</button>
             <button onClick={() => decrement()}>-</button>
             <hr />
-            <CountArea_1 state={state} />
+            <CountArea_1 />
             <hr />
-            <CountArea_2 state={state} />
+            <CountArea_2 />
             <p>ここまで</p>
         </>
     )
 }
 
-const CountArea_1 = ({state}: {state: State}) => {
+const CountArea_1 = () => {
+    const {state } = useCounter()
     return (
         <div>
             <p>count area 1</p>
@@ -64,7 +41,9 @@ const CountArea_1 = ({state}: {state: State}) => {
         </div>
     )
 }
-const CountArea_2 = ({state}: {state: State}) => {
+const CountArea_2 = () => {
+    const {state } = useCounter()
+
     return (
         <div>
             <p>count area 2</p>
@@ -76,7 +55,22 @@ const CountArea_2 = ({state}: {state: State}) => {
 const AppContextProvider = ({ children }: {
     children: React.ReactNode
 }) => {
-    const { state, increment, decrement } = useCounter()
+    const [state, setState] = useState<State>(
+        // providerに初期値
+        { count: 3 }
+    )
+
+    const increment = () => {
+        setState({
+            count: state.count + 1
+        })
+    }
+
+    const decrement = () => {
+        setState({
+            count: state.count - 1
+        })
+    }
 
     const value = useMemo(
         () => ({
