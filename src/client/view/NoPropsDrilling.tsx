@@ -1,4 +1,12 @@
-import { useContext, createContext, useState, useEffect,useReducer, useMemo, useCallback, Children } from "react"
+import {
+    useContext,
+    createContext,
+    useState,
+    useEffect,
+    useReducer,
+    useMemo,
+    useCallback,
+} from 'react'
 
 const ASD_1 = () => {
     const { id } = useIDContext()
@@ -25,13 +33,15 @@ const useIDContext = () => {
 }
 
 const Jadge = () => {
-    const { id,updateId } = useIDContext()
+    const { id, updateId } = useIDContext()
 
     return (
         <div>
             <p>Jadge</p>
             <p>{`current id is ${id}`}</p>
-            <button onClick={() => updateId('assumedFriend')}>assumedFriend</button>
+            <button onClick={() => updateId('assumedFriend')}>
+                assumedFriend
+            </button>
             <button onClick={() => updateId('special')}>special</button>
             <button onClick={() => updateId('unknown')}>unknown</button>
             <hr />
@@ -42,10 +52,7 @@ const Jadge = () => {
     )
 }
 
-const IDContextProvider = ({ children }: {
-    children: React.ReactNode
-}) => {
-
+const IDContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [id, setId] = useState<ID>('pendding')
 
     const updateId = (newID: ID) => {
@@ -60,26 +67,22 @@ const IDContextProvider = ({ children }: {
         [id, updateId]
     )
 
-    return (
-        <IDContext.Provider value={value}>
-            { children }
-        </IDContext.Provider>
-    )
+    return <IDContext.Provider value={value}>{children}</IDContext.Provider>
 }
 
 type ID = 'pendding' | 'unknown' | 'assumedFriend' | 'special'
 
-const IDContext = createContext({} as {
-    id: ID,
-    updateId: (newId: ID) => void
-})
+const IDContext = createContext(
+    {} as {
+        id: ID
+        updateId: (newId: ID) => void
+    }
+)
 
 const NoPropsDrilling = () => {
     return (
         <div>
-            <h1>
-                no props driling
-            </h1>
+            <h1>no props driling</h1>
             <IDContextProvider>
                 <Jadge />
             </IDContextProvider>

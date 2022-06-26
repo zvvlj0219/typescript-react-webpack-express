@@ -17,7 +17,7 @@ type Message = {
 const ErrorHandle = () => {
   const [text, setText] = useState<string>('')
   const [validError, setValidError] = useState<boolean>(false)
-  const [serverError, setServerError] = useState<Message>(null)
+  const [serverError, setServerError] = useState<Message>()
   const { customErrorThrow } = useError()
 
   const handleText = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,7 +57,6 @@ const ErrorHandle = () => {
     try {
       await API(options)
       setText('')
-      setServerError(null)
     } catch (error: unknown) {
       const res = customErrorThrow(error)
       setServerError(res)

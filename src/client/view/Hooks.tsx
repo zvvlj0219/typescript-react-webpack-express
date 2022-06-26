@@ -1,14 +1,25 @@
-import { useContext, createContext, useState, useEffect,useReducer, useMemo, useCallback, Children } from "react"
+import {
+    useContext,
+    createContext,
+    useState,
+    useEffect,
+    useReducer,
+    useMemo,
+    useCallback,
+    Children
+} from 'react'
 
 type State = {
     count: number
 }
 
-const CountContext = createContext({} as {
-    state: State,
-    increment: () => void,
-    decrement: () => void
-})
+const CountContext = createContext(
+    {} as {
+        state: State
+        increment: () => void
+        decrement: () => void
+    }
+)
 
 const useCounter = () => {
     return useContext(CountContext)
@@ -33,7 +44,7 @@ const AnotherHooks = () => {
 }
 
 const CountArea_1 = () => {
-    const {state } = useCounter()
+    const { state } = useCounter()
     return (
         <div>
             <p>count area 1</p>
@@ -42,7 +53,7 @@ const CountArea_1 = () => {
     )
 }
 const CountArea_2 = () => {
-    const {state } = useCounter()
+    const { state } = useCounter()
 
     return (
         <div>
@@ -52,9 +63,7 @@ const CountArea_2 = () => {
     )
 }
 
-const AppContextProvider = ({ children }: {
-    children: React.ReactNode
-}) => {
+const AppContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [state, setState] = useState<State>(
         // providerに初期値
         { count: 3 }
@@ -82,9 +91,7 @@ const AppContextProvider = ({ children }: {
     )
 
     return (
-        <CountContext.Provider value={value}>
-            { children }
-        </CountContext.Provider>
+        <CountContext.Provider value={value}>{children}</CountContext.Provider>
     )
 }
 
@@ -97,17 +104,13 @@ const Hooks = () => {
         <div>
             <p>この親コンポーネントからは参照できない</p>
             <p>Provider以下の別のコンポーネントからのみ参照可能</p>
-            <button onClick={() => increment()}>
-                親からプラス1
-            </button>
-            <button onClick={() => decrement()}>
-                親からマイナス
-            </button>
-            <AppContextProvider >
+            <button onClick={() => increment()}>親からプラス1</button>
+            <button onClick={() => decrement()}>親からマイナス</button>
+            <AppContextProvider>
                 <AnotherHooks />
             </AppContextProvider>
         </div>
     )
-} 
+}
 
 export default Hooks

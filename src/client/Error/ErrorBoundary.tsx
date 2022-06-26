@@ -50,8 +50,6 @@ class ErrorBoundary extends Component<Props, State> {
       return (
         <div>
           <h1>!!Error!! Something went wrong. This is fallback UI</h1>
-          <h3>{error.name}</h3>
-          <h3>{error.message}</h3>
         </div>
       )
     }
