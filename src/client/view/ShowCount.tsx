@@ -1,14 +1,11 @@
 import { useContext } from 'react'
-import { CountContext } from './Hooks'
 
 const ShowCount = () => {
-  const { state } = useContext(CountContext)
-
-  return (
-    <div>
-      <h2>{`current count is ${state.count}`}</h2>
-    </div>
-  )
+    return (
+        <div>
+            <h2>{`current count`}</h2>
+        </div>
+    )
 }
 
 export default ShowCount
