@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "esnext",
+    "target": "ESNext",
     "lib": [
       "DOM",
       "ESNext"
@@ -17,9 +17,10 @@
     "allowJs": true,
     "sourceMap": true,
     "outDir": "./dist",
-    "noEmitOnError": true,
+    // "noEmitOnError": true,
     "isolatedModules": true,
     "esModuleInterop": true,
+    "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitAny": true,

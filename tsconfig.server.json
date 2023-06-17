@@ -1,14 +1,16 @@
 {
   "compilerOptions": {
     "target": "es5",          
-    "module": "commonjs",
+    "module": "ESNext",
     "rootDir": "./src/server",
     "outDir": "./dist",
     "esModuleInterop": true,
+    "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noEmitOnError": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+
   },
   "include": [
     "src/server"

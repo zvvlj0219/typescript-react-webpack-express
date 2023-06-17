@@ -1,0 +1,37 @@
+{
+    "compilerOptions": {
+      "target": "ESNext",
+      "lib": [
+        "DOM",
+        "ESNext"
+      ],
+      "jsx": "react-jsx",
+      "module": "esnext",
+      "rootDir": "./src/client",
+      "moduleResolution": "node",
+      "typeRoots": [
+        "node_modules/@types",
+        "types"
+      ],
+      "resolveJsonModule": true,
+      "allowJs": true,
+      "sourceMap": true,
+      "outDir": "./dist",
+      // "noEmitOnError": true,
+      "isolatedModules": true,
+      "esModuleInterop": true,
+      "experimentalDecorators": true,
+      "forceConsistentCasingInFileNames": true,
+      "strict": true,
+      "noImplicitAny": true,
+      "skipLibCheck": true
+    },
+    "exclude": [
+      "node_modules"
+    ],
+    "include": [
+      "src/client/**/*",
+      "types/**/*"
+    ]
+  }
+  
