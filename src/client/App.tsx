@@ -6,6 +6,8 @@ import NoPropsDrilling from './view/NoPropsDrilling'
 import ErrorHandle from './view/ErrorHandle'
 import Weapon from './view/Weapon'
 import { Load } from './view/useLoading'
+import React from 'react'
+import FormPage from './view/メモ化/page'
 
 const App: React.VFC = () => (
     <div>
@@ -31,6 +33,9 @@ const App: React.VFC = () => (
             <Link to="/useLoading" style={{ padding: '20px' }}>
                 useLoading
             </Link>
+            <Link to="/memo" style={{ padding: '20px' }}>
+                メモ化
+            </Link>
             <Link to="/" style={{ padding: '20px' }}>
                 home
             </Link>
@@ -43,6 +48,7 @@ const App: React.VFC = () => (
             <Route path="/eh" element={<ErrorHandle />} />
             <Route path="/useContext_customHook" element={<Weapon />} />
             <Route path="/useLoading" element={<Load />} />
+            <Route path="/memo" element={<FormPage />} />
         </Routes>
     </div>
 )
